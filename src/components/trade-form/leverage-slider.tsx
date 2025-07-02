@@ -16,10 +16,10 @@ export const LeverageSlider = () => {
   }
 
   const getRiskLevel = (lev: number) => {
-    if (lev <= 10) return 'Low'
-    if (lev <= 30) return 'Medium'
-    if (lev <= 50) return 'High'
-    return 'EXTREME'
+    if (lev <= 10) return 'Low Risk'
+    if (lev <= 30) return 'Medium Risk'
+    if (lev <= 50) return 'High Risk'
+    return 'EXTREME RISK'
   }
 
   return (
@@ -43,7 +43,14 @@ export const LeverageSlider = () => {
           min={2}
           max={100}
           step={1}
-          className="w-full [&_[data-slot=slider-track]]:bg-gray-700 [&_[data-slot=slider-range]]:bg-[rgba(61,213,152,1)] [&_[data-slot=slider-thumb]]:bg-gray-800 [&_[data-slot=slider-thumb]]:border-[rgba(61,213,152,1)] [&_[data-slot=slider-thumb]]:ring-[rgba(61,213,152,0.3)]"
+          className="w-full
+            [&_[data-slot=slider-track]]:bg-gray-700
+            [&_[data-slot=slider-range]]:bg-[rgba(61,213,152,1)]
+            [&_[data-slot=slider-thumb]]:bg-gray-900
+            [&_[data-slot=slider-thumb]]:border-[rgba(61,213,152,1)]
+            [&_[data-slot=slider-thumb]]:border-2
+            [&_[data-slot=slider-thumb]]:hover:ring-[rgba(61,213,152,0.3)]
+            [&_[data-slot=slider-thumb]]:focus-visible:ring-[rgba(61,213,152,0.3)]"
         />
       </div>
 
