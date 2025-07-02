@@ -6,13 +6,10 @@ export const PotentialProfit = () => {
   const potentialProfit = useOBStore.use.potentialProfit()
 
   return (
-    <div className="text-center space-y-2">
-      <div className="text-sm text-gray-400 font-medium">
-        Potential profit:
-        <span className="text-[rgba(61,213,152,1)] font-bold ml-1">
-          {potentialProfit.min}-{potentialProfit.max}$
-        </span>
-        <span className="text-xs text-gray-500 ml-2">💰</span>
+    <div className="text-center space-y-3 bg-gray-800/50 rounded-xl p-4 border border-gray-700/50">
+      <h3 className="text-lg font-medium text-gray-300">Potential profit</h3>
+      <div className="text-2xl font-bold text-[rgba(61,213,152,1)]">
+        {potentialProfit.min}-{potentialProfit.max}$
       </div>
     </div>
   )

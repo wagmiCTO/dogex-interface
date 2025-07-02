@@ -2,8 +2,7 @@
 
 import { LeverageSlider } from './leverage-slider'
 import { PayAmount } from './pay-amount'
-import { PositionSize } from './position-size'
-import { PotentialProfit } from './potential-profit'
+import { PositionInfo } from './position-info'
 import { TradeDirectionButtons } from './trade-direction-buttons'
 
 const TradeForm = () => {
@@ -15,11 +14,8 @@ const TradeForm = () => {
       {/* Leverage Slider Section */}
       <LeverageSlider />
 
-      {/* Position Size Section */}
-      <PositionSize />
-
-      {/* Potential Profit Section */}
-      <PotentialProfit />
+      {/* Position Info Section */}
+      <PositionInfo />
 
       {/* Trade Direction Buttons */}
       <TradeDirectionButtons />

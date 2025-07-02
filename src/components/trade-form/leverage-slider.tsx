@@ -16,10 +16,10 @@ export const LeverageSlider = () => {
   }
 
   const getRiskLevel = (lev: number) => {
-    if (lev <= 10) return 'Low Risk'
-    if (lev <= 30) return 'Medium Risk'
-    if (lev <= 50) return 'High Risk'
-    return 'EXTREME RISK'
+    if (lev <= 10) return 'Low'
+    if (lev <= 30) return 'Medium'
+    if (lev <= 50) return 'High'
+    return 'EXTREME'
   }
 
   return (
@@ -43,13 +43,13 @@ export const LeverageSlider = () => {
           min={2}
           max={100}
           step={1}
-          className="w-full"
+          className="w-full [&_[data-slot=slider-track]]:bg-gray-700 [&_[data-slot=slider-range]]:bg-[rgba(61,213,152,1)] [&_[data-slot=slider-thumb]]:bg-gray-800 [&_[data-slot=slider-thumb]]:border-[rgba(61,213,152,1)] [&_[data-slot=slider-thumb]]:ring-[rgba(61,213,152,0.3)]"
         />
       </div>
 
-      <div className="flex justify-between text-sm text-gray-500 px-4">
-        <span className="text-[rgba(61,213,152,1)]">2x</span>
-        <span className="text-[rgba(246,94,93,1)]">100x</span>
+      <div className="flex justify-between text-sm px-4">
+        <span className="text-gray-400">2x</span>
+        <span className="text-gray-400">100x</span>
       </div>
     </div>
   )

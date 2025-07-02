@@ -14,7 +14,8 @@ export const PayAmount = () => {
           type="number"
           value={payAmount}
           onChange={(e) => setPayAmount(Number(e.target.value))}
-          className="text-3xl font-bold text-center w-full bg-transparent border-none outline-none focus:ring-0 text-white placeholder-gray-500"
+          className="text-3xl font-bold text-center w-full bg-gray-800/50 border border-gray-600 rounded-lg px-4 py-2 outline-none focus:border-gray-500 text-white placeholder-gray-500
+          [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
           min="0.1"
           step="0.1"
           placeholder="0.0"
