@@ -27,7 +27,7 @@ export function Header() {
         </div>
 
         <div className="flex flex-row gap-3 items-center">
-          <div className="[&_button]:bg-gray-800 [&_button]:border-gray-700 [&_button]:text-white [&_button]:hover:bg-gray-700 [&_button]:transition-colors [&_button]:duration-200">
+          <div className="hidden sm:block [&_button]:bg-[rgba(61,213,152,1)] [&_button]:border-[rgba(61,213,152,1)] [&_button]:text-white [&_button]:hover:bg-[rgba(61,213,152,0.8)] [&_button]:hover:border-[rgba(61,213,152,0.8)] [&_button]:transition-all [&_button]:duration-200 [&_button]:font-medium [&_button]:shadow-lg [&_button]:hover:shadow-[rgba(61,213,152,0.25)]">
             <ConnectButton />
           </div>
           <MobileNavigation />

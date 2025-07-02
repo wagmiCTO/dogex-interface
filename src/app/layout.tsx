@@ -16,9 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="overflow-x-hidden">
         <Providers>
-          <div className="flex flex-col min-h-screen min-w-[320px] bg-gray-950">
+          <div className="flex flex-col min-h-screen min-w-[320px] bg-gray-950 overflow-x-hidden">
             <Header />
             <div
               className="flex flex-1 justify-center items-center p-4"
