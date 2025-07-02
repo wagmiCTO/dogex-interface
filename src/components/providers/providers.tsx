@@ -8,7 +8,7 @@ import ObRainbowKitProvider from '@/components/providers/ob-rainbowkit-provider'
 
 export const config = getDefaultConfig({
   appName: 'DogEx',
-  projectId: '123123213',
+  projectId: '442a9cb141f0cc2019c88cce66649b02',
   chains: [arbitrum],
   ssr: true,
 })
