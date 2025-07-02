@@ -9,7 +9,6 @@ interface OBState {
   positionSize: number
   potentialProfit: { min: number; max: number }
   liquidationPrice: number
-  potentialLoss: number
 }
 
 type OBAction = {
@@ -20,7 +19,6 @@ type OBAction = {
   calculatePositionSize: () => void
   calculatePotentialProfit: () => void
   calculateLiquidationPrice: () => void
-  calculatePotentialLoss: () => void
   openLongPosition: () => void
   openShortPosition: () => void
 }
@@ -35,7 +33,6 @@ export const useStore = create<OBState & OBAction>(
       positionSize: 1000,
       potentialProfit: { min: 100, max: 200 },
       liquidationPrice: 0,
-      potentialLoss: 0,
 
       toggleSound: () => set((state) => ({ isSound: !state.isSound })),
 
@@ -44,7 +41,6 @@ export const useStore = create<OBState & OBAction>(
         get().calculatePositionSize()
         get().calculatePotentialProfit()
         get().calculateLiquidationPrice()
-        get().calculatePotentialLoss()
       },
 
       setLeverage: (leverage: number) => {
@@ -52,7 +48,6 @@ export const useStore = create<OBState & OBAction>(
         get().calculatePositionSize()
         get().calculatePotentialProfit()
         get().calculateLiquidationPrice()
-        get().calculatePotentialLoss()
       },
 
       calculatePositionSize: () => {
@@ -76,12 +71,6 @@ export const useStore = create<OBState & OBAction>(
         const currentPrice = 50000 // Пример цены BTC
         const liquidationDistance = currentPrice / leverage
         set({ liquidationPrice: currentPrice - liquidationDistance })
-      },
-
-      calculatePotentialLoss: () => {
-        const { payAmount } = get()
-        // Максимальный убыток равен размеру залога (pay amount)
-        set({ potentialLoss: payAmount })
       },
 
       openLongPosition: () => {

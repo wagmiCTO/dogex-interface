@@ -6,7 +6,6 @@ export const PositionInfo = () => {
   const positionSize = useOBStore.use.positionSize()
   const potentialProfit = useOBStore.use.potentialProfit()
   const liquidationPrice = useOBStore.use.liquidationPrice()
-  const potentialLoss = useOBStore.use.potentialLoss()
 
   return (
     <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700/50 space-y-4">
@@ -24,8 +23,8 @@ export const PositionInfo = () => {
       {/* Divider */}
       <div className="border-t border-gray-700/30"></div>
 
-      {/* Additional Info Grid - 3 columns */}
-      <div className="grid grid-cols-3 gap-3 text-xs">
+      {/* Additional Info Grid - 2 columns */}
+      <div className="grid grid-cols-2 gap-4 text-sm">
         <div className="text-center">
           <div className="text-gray-400 font-medium mb-1">Potential profit</div>
           <div className="text-[rgba(61,213,152,1)] font-bold">
@@ -39,13 +38,6 @@ export const PositionInfo = () => {
           </div>
           <div className="text-gray-300 font-bold">
             ${liquidationPrice.toLocaleString()}
-          </div>
-        </div>
-
-        <div className="text-center">
-          <div className="text-gray-400 font-medium mb-1">Potential loss</div>
-          <div className="text-[rgba(246,94,93,1)] font-bold">
-            {potentialLoss}$
           </div>
         </div>
       </div>
