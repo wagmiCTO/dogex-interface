@@ -1,12 +1,17 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
 import { simulateContract } from '@wagmi/core'
-import { zeroAddress, zeroHash } from 'viem'
+import { useMemo } from 'react'
+import { formatUnits, parseUnits, zeroAddress, zeroHash } from 'viem'
 import { arbitrum } from 'viem/chains'
 import { useWriteContract } from 'wagmi'
+import { getPrices } from '@/api/gmx-api'
 import { config } from '@/components/providers/providers'
 import { Button } from '@/components/ui/button'
+import { useExecutionFee } from '@/hooks/use-execution-fee'
 import { POSITION_ROUTER_ABI } from '@/lib/abis/position-router'
+import { ALLOWED_SLIPPAGE, LINK, USDC } from '@/lib/constant'
 import { getContract } from '@/lib/contracts'
 import { useOBStore } from '@/store/store'
 
@@ -17,25 +22,40 @@ export const TradeDirectionButtons = () => {
   const leverage = useOBStore.use.leverage()
 
   const { writeContractAsync } = useWriteContract()
+  const { minExecutionFee } = useExecutionFee()
+
+  const { data: price } = useQuery({
+    queryKey: ['GMXPrices'],
+    queryFn: getPrices,
+  })
+
+  const currentPrice = useMemo(() => price?.[LINK.address], [price])
+
+  const numPrice = currentPrice
+    ? Number(formatUnits(BigInt(currentPrice), 30))
+    : 0
+
+  const allowedNumPrice = numPrice + numPrice * ALLOWED_SLIPPAGE
 
   const openLongPosition = async () => {
-    console.log({ payAmount, leverage })
     const contract = getContract(arbitrum.id, 'PositionRouter')
 
-    const executionFee = BigInt('210807500000000')
-
     const args = [
-      [
-        '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
-        '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4',
-      ], // _path
-      '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4', // _indexToken
-      BigInt('10000000'), // _amountIn
+      [USDC.address, LINK.address], // _path
+      LINK.address, // _indexToken
+      parseUnits(String(payAmount), USDC.decimal), // _amountIn
       BigInt(0), // _minOut
-      BigInt('19920159680638722547850000000000'), // _sizeDelta
+      parseUnits(
+        String(
+          (payAmount / numPrice) *
+            leverage *
+            Number(formatUnits(BigInt(currentPrice ?? 0), 30)),
+        ),
+        30,
+      ), // _sizeDelta amount * price
       true, //_isLong
-      BigInt('13988500000000000000000000000000'), // _acceptablePrice
-      executionFee, // _executionFee
+      parseUnits(String(allowedNumPrice), 30), // _acceptablePrice
+      minExecutionFee, // _executionFee
       zeroHash, // _referralCode
       zeroAddress, // _callbackTarget
     ]
@@ -47,7 +67,7 @@ export const TradeDirectionButtons = () => {
         functionName: 'createIncreasePosition',
         args,
         chainId: arbitrum.id,
-        value: BigInt('210807500000000'),
+        value: minExecutionFee,
       })
       console.log('Simulation result:', simulation)
       // If simulation is successful, send the real tx
@@ -56,7 +76,7 @@ export const TradeDirectionButtons = () => {
         address: contract,
         functionName: 'createIncreasePosition',
         args,
-        value: executionFee,
+        value: minExecutionFee,
       })
     } catch (error) {
       console.log({ error })
