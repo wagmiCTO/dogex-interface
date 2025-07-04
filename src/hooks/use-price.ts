@@ -8,15 +8,20 @@ export const usePrice = () => {
   const { data: price } = useQuery({
     queryKey: ['GMXPrices'],
     queryFn: getPrices,
+    refetchInterval: 1000,
   })
 
   const currentPrice = useMemo(() => price?.[LINK.address], [price])
 
-  const numPrice = currentPrice
-    ? Number(formatUnits(BigInt(currentPrice), 30))
-    : 0
+  const numPrice = useMemo(
+    () => (currentPrice ? Number(formatUnits(BigInt(currentPrice), 30)) : 0),
+    [currentPrice],
+  )
 
-  const priceWithSlippage = numPrice + numPrice * ALLOWED_SLIPPAGE
+  const priceWithSlippage = useMemo(
+    () => numPrice + numPrice * ALLOWED_SLIPPAGE,
+    [numPrice],
+  )
 
   return { priceWithSlippage, numPrice, currentPrice }
 }

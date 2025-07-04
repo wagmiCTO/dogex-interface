@@ -10,6 +10,7 @@ import { getPrices } from '@/api/gmx-api'
 import { config } from '@/components/providers/providers'
 import { Button } from '@/components/ui/button'
 import { useExecutionFee } from '@/hooks/use-execution-fee'
+import { usePrice } from '@/hooks/use-price'
 import { POSITION_ROUTER_ABI } from '@/lib/abis/position-router'
 import { ALLOWED_SLIPPAGE, LINK, USDC } from '@/lib/constant'
 import { getContract } from '@/lib/contracts'
@@ -23,19 +24,7 @@ export const TradeDirectionButtons = () => {
 
   const { writeContractAsync } = useWriteContract()
   const { minExecutionFee } = useExecutionFee()
-
-  const { data: price } = useQuery({
-    queryKey: ['GMXPrices'],
-    queryFn: getPrices,
-  })
-
-  const currentPrice = useMemo(() => price?.[LINK.address], [price])
-
-  const numPrice = currentPrice
-    ? Number(formatUnits(BigInt(currentPrice), 30))
-    : 0
-
-  const allowedNumPrice = numPrice + numPrice * ALLOWED_SLIPPAGE
+  const { numPrice, priceWithSlippage } = usePrice()
 
   const openLongPosition = async () => {
     const contract = getContract(arbitrum.id, 'PositionRouter')
@@ -45,16 +34,9 @@ export const TradeDirectionButtons = () => {
       LINK.address, // _indexToken
       parseUnits(String(payAmount), USDC.decimal), // _amountIn
       BigInt(0), // _minOut
-      parseUnits(
-        String(
-          (payAmount / numPrice) *
-            leverage *
-            Number(formatUnits(BigInt(currentPrice ?? 0), 30)),
-        ),
-        30,
-      ), // _sizeDelta amount * price
+      parseUnits(String((payAmount / numPrice) * leverage * numPrice), 30), // _sizeDelta amount * price
       true, //_isLong
-      parseUnits(String(allowedNumPrice), 30), // _acceptablePrice
+      parseUnits(String(priceWithSlippage), 30), // _acceptablePrice
       minExecutionFee, // _executionFee
       zeroHash, // _referralCode
       zeroAddress, // _callbackTarget
