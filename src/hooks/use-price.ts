@@ -18,10 +18,20 @@ export const usePrice = () => {
     [currentPrice],
   )
 
-  const priceWithSlippage = useMemo(
+  const longPriceWithSlippage = useMemo(
     () => numPrice + numPrice * ALLOWED_SLIPPAGE,
     [numPrice],
   )
 
-  return { priceWithSlippage, numPrice, currentPrice }
+  const shortPriceWithSlippage = useMemo(
+    () => numPrice - numPrice * ALLOWED_SLIPPAGE,
+    [numPrice],
+  )
+
+  return {
+    longPriceWithSlippage,
+    shortPriceWithSlippage,
+    numPrice,
+    currentPrice,
+  }
 }
