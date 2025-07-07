@@ -3,7 +3,6 @@ import { createSelectors } from '@/store/create-selectors'
 
 interface OBState {
   isSound: boolean
-  // Trade form state
   payAmount: number
   leverage: number
   positionSize: number
@@ -13,7 +12,6 @@ interface OBState {
 
 type OBAction = {
   toggleSound: () => void
-  // Trade form actions
   setPayAmount: (amount: number) => void
   setLeverage: (leverage: number) => void
   calculatePositionSize: () => void
@@ -30,7 +28,7 @@ export const useStore = create<OBState & OBAction>(
       // Trade form initial state
       payAmount: 10,
       leverage: 2,
-      positionSize: 1000,
+      positionSize: 20,
       potentialProfit: { min: 100, max: 200 },
       liquidationPrice: 0,
 
@@ -58,7 +56,6 @@ export const useStore = create<OBState & OBAction>(
 
       calculatePotentialProfit: () => {
         const { positionSize } = get()
-        // Simplified calculation - в реальном приложении будет более сложная логика
         const min = Math.round(positionSize * 0.1)
         const max = Math.round(positionSize * 0.2)
         set({ potentialProfit: { min, max } })
@@ -66,9 +63,7 @@ export const useStore = create<OBState & OBAction>(
 
       calculateLiquidationPrice: () => {
         const { leverage } = get()
-        // Упрощенный расчет цены ликвидации
-        // В реальном приложении это будет зависеть от текущей цены актива
-        const currentPrice = 50000 // Пример цены BTC
+        const currentPrice = 50000
         const liquidationDistance = currentPrice / leverage
         set({ liquidationPrice: currentPrice - liquidationDistance })
       },

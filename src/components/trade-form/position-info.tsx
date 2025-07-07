@@ -9,7 +9,6 @@ export const PositionInfo = () => {
 
   return (
     <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700/50 space-y-4">
-      {/* Position Size */}
       <div className="text-center">
         <h3 className="text-sm text-gray-400 font-medium mb-1">
           Position size
@@ -20,10 +19,8 @@ export const PositionInfo = () => {
         </div>
       </div>
 
-      {/* Divider */}
       <div className="border-t border-gray-700/30"></div>
 
-      {/* Additional Info Grid - 2 columns */}
       <div className="grid grid-cols-2 gap-4 text-sm">
         <div className="text-center">
           <div className="text-gray-400 font-medium mb-1">Potential profit</div>
