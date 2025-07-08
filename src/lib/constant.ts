@@ -1,4 +1,4 @@
-import { parseEther } from 'viem'
+import { type Address, parseEther } from 'viem'
 import { arbitrum } from 'viem/chains'
 import type { FootLink, SocialMedia } from '@/lib/types'
 
@@ -34,7 +34,7 @@ export const TOKENS = [
     symbol: 'LINK',
     decimals: 18,
     priceDecimals: 4,
-    address: '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4',
+    address: '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4' as Address,
     isStable: false,
     isShortable: true,
     categories: ['defi'],
@@ -51,7 +51,7 @@ export const TOKENS = [
     name: 'USD Coin',
     symbol: 'USDC',
     decimals: 6,
-    address: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
+    address: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831' as Address,
     isStable: true,
     isV1Available: true,
     imageUrl:
@@ -97,3 +97,4 @@ export const MARGIN_FEE_BASIS_POINTS = 10
 export const BASIS_POINTS_DIVISOR_BIGINT = 10000n
 export const USD_DECIMALS = 30
 export const PENDING_POSITION_VALID_DURATION = 600 * 1000
+export const BASIS_POINTS_DIVISOR = 10000

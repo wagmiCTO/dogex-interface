@@ -1,25 +1,79 @@
-import { USD_DECIMALS } from '@/lib/constant'
+import { simulateContract } from '@wagmi/core'
+import { useCallback } from 'react'
+import { zeroAddress } from 'viem'
+import { arbitrum } from 'viem/chains'
+import { useAccount, useWriteContract } from 'wagmi'
+import { config } from '@/components/providers/providers'
+import { useExecutionFee } from '@/hooks/use-execution-fee'
+import { usePrice } from '@/hooks/use-price'
+import { POSITION_ROUTER_ABI } from '@/lib/abis/position-router'
+import { bigMath } from '@/lib/bigmath'
+import { BASIS_POINTS_DIVISOR_BIGINT, USD_DECIMALS } from '@/lib/constant'
+import { getContract } from '@/lib/contracts'
+import type { Position } from '@/lib/types'
 import { formatAmount } from '@/lib/utils'
-
-interface Position {
-  deltaStr: string
-  deltaPercentageStr: string
-  hasProfit: boolean
-  averagePrice: bigint
-  markPrice: bigint
-  size: bigint
-  collateral: bigint
-  isLong: boolean
-  indexToken: any
-  leverageStr: string
-  netValue: bigint
-}
 
 interface CurrentPositionProps {
   positions: Position[]
 }
 
 const CurrentPosition = ({ positions }: CurrentPositionProps) => {
+  const { writeContractAsync } = useWriteContract()
+  const { minExecutionFee } = useExecutionFee()
+  const { currentPrice: markPrice } = usePrice()
+
+  const { address } = useAccount()
+
+  console.log({ positions })
+
+  const onClosePosition = useCallback(async () => {
+    const contract = getContract(arbitrum.id, 'PositionRouter')
+    const position = positions[0]
+
+    const priceBasisPoints = position.isLong ? 9900 : 10100
+    const priceLimit = bigMath.mulDiv(
+      BigInt(markPrice ?? 0),
+      BigInt(priceBasisPoints),
+      BASIS_POINTS_DIVISOR_BIGINT,
+    )
+
+    const args = [
+      [position.collateralToken], // _path
+      position.indexToken, // _indexToken
+      0, // _collateralDelta
+      position.size, // _sizeDelta
+      position.isLong, // _isLong
+      address, // _receiver
+      priceLimit, // _acceptablePrice
+      0, // _minOut
+      minExecutionFee, // _executionFee
+      false, // _withdrawETH
+      zeroAddress, // _callbackTarget
+    ]
+
+    try {
+      const simulation = await simulateContract(config, {
+        abi: POSITION_ROUTER_ABI,
+        address: contract,
+        functionName: 'createDecreasePosition',
+        args,
+        chainId: arbitrum.id,
+        value: minExecutionFee,
+      })
+      console.log(simulation)
+      // If simulation is successful, send the real tx
+      await writeContractAsync({
+        abi: POSITION_ROUTER_ABI,
+        address: contract,
+        functionName: 'createDecreasePosition',
+        args,
+        value: minExecutionFee,
+      })
+    } catch (error) {
+      console.log({ error })
+    }
+  }, [address, positions[0], writeContractAsync, minExecutionFee, markPrice])
+
   if (!positions || positions.length === 0) {
     return null
   }
@@ -45,14 +99,14 @@ const CurrentPosition = ({ positions }: CurrentPositionProps) => {
           >
             <div className="text-center">
               <div
-                className={`text-3xl font-bold ${position.hasProfit ? 'text-green-400' : 'text-red-400'}`}
+                className={`text-3xl font-bold ${position.hasProfitAfterFees ? 'text-green-400' : 'text-red-400'}`}
               >
-                {position.deltaStr}
+                {position.deltaAfterFeesStr}
               </div>
               <div
-                className={`text-lg ${position.hasProfit ? 'text-green-400' : 'text-red-400'}`}
+                className={`text-lg ${position.hasProfitAfterFees ? 'text-green-400' : 'text-red-400'}`}
               >
-                {position.deltaPercentageStr}
+                {position.deltaAfterFeesPercentageStr}
               </div>
             </div>
 
@@ -104,6 +158,15 @@ const CurrentPosition = ({ positions }: CurrentPositionProps) => {
                   {position.isLong ? 'LONG' : 'SHORT'}
                 </span>
               </div>
+            </div>
+            <div className="flex justify-center pt-4">
+              <button
+                className="cursor-pointer bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-150 disabled:opacity-50"
+                onClick={() => onClosePosition()}
+                disabled={!position.size}
+              >
+                Close Position
+              </button>
             </div>
           </div>
         )

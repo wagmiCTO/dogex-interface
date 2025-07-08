@@ -15,15 +15,15 @@ import {
   UPDATED_POSITION_VALID_DURATION,
   USD_DECIMALS,
 } from '@/lib/constant'
-import type { GetLeverageParams } from '@/lib/types'
+import type { GetLeverageParams, Position } from '@/lib/types'
 import { formatAmount } from '@/lib/utils'
 
 export function getPositionQuery() {
   const tokens = TOKENS
 
-  const collateralTokens: any[] = []
-  const indexTokens: any[] = []
-  const isLong: any[] = []
+  const collateralTokens: Address[] = []
+  const indexTokens: Address[] = []
+  const isLong: boolean[] = []
 
   for (let i = 0; i < tokens.length; i++) {
     const token = tokens[i]
@@ -201,7 +201,7 @@ export function getPositions(
   updatedPositions: any,
 ) {
   const propsLength = getConstant(chainId, 'positionReaderPropsLength')
-  const positions: any[] = []
+  const positions: Position[] = []
   const positionsMap = {}
   if (!positionData) {
     return { positions, positionsMap }

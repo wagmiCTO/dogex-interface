@@ -39,7 +39,7 @@ const TradeForm = () => {
     },
   })
 
-  const { positions } = useMemo(
+  const { positions, positionsMap } = useMemo(
     () =>
       getPositions(
         chainId,
@@ -53,6 +53,8 @@ const TradeForm = () => {
       ),
     [address, chainId, positionData, positionQuery],
   )
+
+  console.log({ positions, positionsMap })
 
   const hasPositions = positions && positions.length > 0
 
