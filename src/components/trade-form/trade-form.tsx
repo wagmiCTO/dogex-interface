@@ -35,6 +35,9 @@ const TradeForm = () => {
         <CurrentPosition position={positionData} />
       ) : (
         <>
+          <h3 className="text-xl font-bold text-white mb-6 text-center">
+            Trade $DOGE
+          </h3>
           <PayAmount />
           <LeverageSlider />
           <PositionInfo />

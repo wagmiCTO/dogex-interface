@@ -5,7 +5,7 @@ import { useOBStore } from '@/store/store'
 export const PositionInfo = () => {
   const positionSize = useOBStore.use.positionSize()
   const potentialProfit = useOBStore.use.potentialProfit()
-  const liquidationPrice = useOBStore.use.liquidationPrice()
+  const leverage = useOBStore.use.leverage()
 
   return (
     <div className="bg-gray-800/50 rounded-xl p-4 border border-gray-700/50 space-y-4">
@@ -30,11 +30,9 @@ export const PositionInfo = () => {
         </div>
 
         <div className="text-center">
-          <div className="text-gray-400 font-medium mb-1">
-            Liquidation price
-          </div>
+          <div className="text-gray-400 font-medium mb-1">Risk</div>
           <div className="text-gray-300 font-bold">
-            ${liquidationPrice.toLocaleString()}
+            {leverage > 50 ? 'High' : leverage > 20 ? 'Medium' : 'Low'}
           </div>
         </div>
       </div>

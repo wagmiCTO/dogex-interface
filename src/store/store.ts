@@ -62,7 +62,7 @@ export const useStore = create<OBState & OBAction>(
 
       calculateLiquidationPrice: () => {
         const { leverage } = get()
-        const currentPrice = 50000
+        const currentPrice = 0.21
         const liquidationDistance = currentPrice / leverage
         set({ liquidationPrice: currentPrice - liquidationDistance })
       },

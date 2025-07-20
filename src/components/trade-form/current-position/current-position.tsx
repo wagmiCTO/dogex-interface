@@ -37,7 +37,7 @@ const CurrentPosition = ({ position }: CurrentPositionProps) => {
   return (
     <div className="space-y-4">
       <h3 className="text-xl font-bold text-white mb-6 text-center">
-        Your Position
+        Your $DOGE Position
       </h3>
 
       <div className="bg-gray-800/60 border border-gray-600 rounded-xl p-6 space-y-4">
