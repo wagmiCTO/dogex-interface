@@ -11,8 +11,11 @@ export const CONTRACTS: Record<number, { [key: string]: Address }> = {
   },
 }
 
-export function getContract(chainId: number, name: string): Address {
-  if (!CONTRACTS[chainId]) {
+export function getContract(
+  chainId: number | undefined,
+  name: string,
+): Address {
+  if (!chainId || !CONTRACTS[chainId]) {
     throw new Error(`Unknown chainId ${chainId}`)
   }
 

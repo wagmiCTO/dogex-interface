@@ -24,8 +24,11 @@
       "typechain",
       "tsconfig.json",
       "tsconfig.*.json",
-      "packages/wagmi/src/hooks/exploits/data/rp2-approvals.json"
-    ]
+      "packages/wagmi/src/hooks/exploits/data/rp2-approvals.json",
+      "ponder-env.d.ts",
+      "apps/dapp/public"
+    ],
+    "maxSize": 18446744073709551615
   },
   "formatter": {
     "enabled": true,
@@ -50,27 +53,16 @@
         "noUnusedImports": "error",
         "useExhaustiveDependencies": "error"
       },
-      "performance": {
-        "noDelete": "off"
-      },
       "style": {
-        "noNonNullAssertion": "off",
-        "noParameterAssign": "off",
-        "useShorthandArrayType": "error",
-        "noUselessElse": "off",
-        "noUnusedTemplateLiteral": "off"
+        "useShorthandArrayType": "error"
       },
       "suspicious": {
         "noArrayIndexKey": "off",
-        "noExplicitAny": "off",
-        "noImplicitAnyLet": "off"
+        "noConsole": "error"
       },
       "complexity": {
-        "useLiteralKeys": "off",
-        "noForEach": "off",
         "noStaticOnlyClass": "off",
-        "noThisInStatic": "off",
-        "useSimpleNumberKeys": "off"
+        "useLiteralKeys": "off"
       },
       "security": {
         "noDangerouslySetInnerHtml": "off"
@@ -94,7 +86,14 @@
   },
   "overrides": [
     {
-      "include": ["*.test.ts", "*.test.tsx", "packages/db", "*.script.ts"]
+      "include": ["*.test.ts", "*.test.tsx", "packages/db", "*.script.ts"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noConsole": "off"
+          }
+        }
+      }
     }
   ]
 }

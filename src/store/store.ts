@@ -25,11 +25,10 @@ export const useStore = create<OBState & OBAction>(
   (set, get) =>
     ({
       isSound: true,
-      // Trade form initial state
       payAmount: 10,
       leverage: 2,
       positionSize: 20,
-      potentialProfit: { min: 100, max: 200 },
+      potentialProfit: { min: 10, max: 20 },
       liquidationPrice: 0,
 
       toggleSound: () => set((state) => ({ isSound: !state.isSound })),

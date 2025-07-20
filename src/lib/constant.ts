@@ -2,20 +2,6 @@ import { type Address, parseEther } from 'viem'
 import { arbitrum } from 'viem/chains'
 import type { FootLink, SocialMedia } from '@/lib/types'
 
-export const FOOTER_LINKS: FootLink[] = [
-  { text: 'TERMS OF USE', subText: 'LEGAL TERMS', link: '/terms-of-use' },
-  {
-    text: 'DOCS',
-    subText: 'LEARN MORE',
-    link: 'https://docs.oogabooga.io/',
-  },
-]
-
-export const SOCIAL_MEDIA_LINKS: Record<SocialMedia, string> = {
-  twitter: 'https://twitter.com/0xoogabooga',
-  discord: 'https://discord.com/invite/0xoogabooga',
-}
-
 export const USDC = {
   address: '0x8af03F9874b18d1Bd6283B107Daa7B2fCa29EAD1',
   decimal: 6,
@@ -74,4 +60,3 @@ export const MARGIN_FEE_BASIS_POINTS = 10
 export const BASIS_POINTS_DIVISOR_BIGINT = 10000n
 export const USD_DECIMALS = 30
 export const PENDING_POSITION_VALID_DURATION = 600 * 1000
-export const BASIS_POINTS_DIVISOR = 10000

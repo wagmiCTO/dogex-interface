@@ -136,3 +136,26 @@ export const formatAmount = (
   }
   return amountStr
 }
+
+export const calculateLiquidationPrice = (
+  entryPrice: number,
+  collateral: number,
+  size: number,
+  isLong: boolean,
+): number => {
+  const liquidationThreshold = 0.9
+
+  const riskFactor = (liquidationThreshold * collateral) / size
+
+  console.log({
+    t1: liquidationThreshold * collateral,
+    t2: size,
+    t3: riskFactor,
+  })
+
+  if (isLong) {
+    return entryPrice * (1 - riskFactor)
+  } else {
+    return entryPrice * (1 + riskFactor)
+  }
+}

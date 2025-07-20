@@ -19,6 +19,15 @@ export type GetLeverageParams = {
   includeDelta?: boolean
 }
 
+export type ContractPosition = {
+  collateral: bigint
+  entryPrice: bigint
+  isActive: boolean
+  isLong: boolean
+  pnl: bigint
+  size: bigint
+}
+
 export type Position = {
   key: Address
   contractKey: any
