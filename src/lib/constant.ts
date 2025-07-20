@@ -17,41 +17,18 @@ export const SOCIAL_MEDIA_LINKS: Record<SocialMedia, string> = {
 }
 
 export const USDC = {
-  address: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
+  address: '0x8af03F9874b18d1Bd6283B107Daa7B2fCa29EAD1',
   decimal: 6,
-}
-
-export const LINK = {
-  address: '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4',
-  decimal: 18,
 }
 
 export const ALLOWED_SLIPPAGE = 0.1
 
 export const TOKENS = [
   {
-    name: 'Chainlink',
-    symbol: 'LINK',
-    decimals: 18,
-    priceDecimals: 4,
-    address: '0xf97f4df75117a78c1A5a0DBb814Af92458539FB4' as Address,
-    isStable: false,
-    isShortable: true,
-    categories: ['defi'],
-    imageUrl:
-      'https://assets.coingecko.com/coins/images/877/thumb/chainlink-new-logo.png?1547034700',
-    coingeckoUrl: 'https://www.coingecko.com/en/coins/chainlink',
-    explorerUrl:
-      'https://arbiscan.io/token/0xf97f4df75117a78c1a5a0dbb814af92458539fb4',
-    isV1Available: true,
-    isPermitSupported: true,
-    contractVersion: '1',
-  },
-  {
     name: 'USD Coin',
     symbol: 'USDC',
     decimals: 6,
-    address: '0xaf88d065e77c8cC2239327C5EDb3A432268e5831' as Address,
+    address: '0x8af03F9874b18d1Bd6283B107Daa7B2fCa29EAD1' as Address,
     isStable: true,
     isV1Available: true,
     imageUrl:

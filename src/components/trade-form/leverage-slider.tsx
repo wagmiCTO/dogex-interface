@@ -7,7 +7,6 @@ export const LeverageSlider = () => {
   const leverage = useOBStore.use.leverage()
   const setLeverage = useOBStore.use.setLeverage()
 
-  // Эмоциональные цвета в зависимости от уровня рычага с кастомными цветами
   const getLeverageColor = (lev: number) => {
     if (lev <= 10) return 'text-[rgba(61,213,152,1)]' // --color-green
     if (lev <= 30) return 'text-yellow-400'
