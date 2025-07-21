@@ -1,33 +1,6 @@
 {
   "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "ignore": [
-      "_cjs",
-      "_esm",
-      "_types",
-      ".turbo",
-      ".next",
-      ".mesh",
-      ".graphclient",
-      ".storybook",
-      "storybook-static",
-      "node_modules",
-      "**/node_modules",
-      "CHANGELOG.md",
-      "dist",
-      "artifacts",
-      "cache",
-      "coverage",
-      "deployments",
-      "test-results",
-      "test/contracts",
-      "typechain",
-      "tsconfig.json",
-      "tsconfig.*.json",
-      "packages/wagmi/src/hooks/exploits/data/rp2-approvals.json",
-      "ponder-env.d.ts",
-      "apps/dapp/public"
-    ],
     "maxSize": 18446744073709551615
   },
   "formatter": {
@@ -53,9 +26,6 @@
         "noUnusedImports": "error",
         "useExhaustiveDependencies": "error"
       },
-      "style": {
-        "useShorthandArrayType": "error"
-      },
       "suspicious": {
         "noArrayIndexKey": "off",
         "noConsole": "error"
@@ -76,24 +46,9 @@
       "semicolons": "asNeeded"
     }
   },
-  "organizeImports": {
-    "enabled": true
-  },
   "vcs": {
     "enabled": true,
     "clientKind": "git",
     "useIgnoreFile": true
-  },
-  "overrides": [
-    {
-      "include": ["*.test.ts", "*.test.tsx", "packages/db", "*.script.ts"],
-      "linter": {
-        "rules": {
-          "suspicious": {
-            "noConsole": "off"
-          }
-        }
-      }
-    }
-  ]
+  }
 }
