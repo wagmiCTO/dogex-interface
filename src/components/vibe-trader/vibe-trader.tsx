@@ -7,189 +7,254 @@ import { useOBStore } from '@/store/store'
 
 // Советы для пользователей БЕЗ открытых позиций
 const AI_ADVICE_NO_POSITION = [
-  // Анализ текущих параметров
+  // Анализ текущих параметров для скальпинга
   {
-    condition: (params: any) => params.leverage > 15,
+    condition: (params: any) => params.leverage < 10,
     advice:
-      'Neural network analysis suggests reducing leverage to 5-10x. High leverage increases liquidation risk by 340% based on historical data.',
-    emoji: '🧠',
+      '1-min scalping detected: Leverage below 10x is too conservative for quick moves. Consider 15-25x for optimal scalping profits.',
+    emoji: '⚡',
   },
   {
-    condition: (params: any) => params.leverage > 25,
+    condition: (params: any) => params.leverage >= 10 && params.leverage < 20,
     advice:
-      'CRITICAL: Leverage exceeding 25x shows 89% liquidation rate within 24h. AI recommendation: immediate risk reduction.',
-    emoji: '🚨',
+      'Good scalping leverage! 10-20x range captures micro movements effectively. Perfect for 1-min chart momentum plays.',
+    emoji: '🎯',
   },
   {
-    condition: (params: any) => params.leverage < 3,
+    condition: (params: any) => params.leverage >= 20 && params.leverage <= 50,
     advice:
-      'Conservative approach detected. Market volatility suggests 3-5x leverage could optimize risk-adjusted returns by 45%.',
-    emoji: '📊',
+      'Excellent scalping setup! 20-50x leverage maximizes profit on small price moves. Ideal for 1-min breakouts and rejections.',
+    emoji: '🚀',
+  },
+  {
+    condition: (params: any) => params.leverage > 50,
+    advice:
+      'EXTREME scalping mode! 50x+ leverage for aggressive 1-min plays. High risk, high reward - perfect for experienced scalpers.',
+    emoji: '⚡',
+  },
+  {
+    condition: (params: any) => params.leverage > 70,
+    advice:
+      'MAXIMUM AGGRESSION: 70x+ leverage for micro-scalping. One tick profits can be huge. Only for expert scalpers with tight stops.',
+    emoji: '🔥',
   },
   {
     condition: (params: any) => params.payAmount > 500,
     advice:
-      'Large position alert: Risk management protocols suggest position sizing at 2-5% of portfolio. Confirm risk tolerance.',
-    emoji: '⚖️',
+      'Large scalping position: On 1-min charts, even $500 with 30x leverage can capture significant moves. Risk management crucial.',
+    emoji: '💎',
   },
   {
-    condition: (params: any) => params.payAmount < 10,
+    condition: (params: any) => params.payAmount < 20,
     advice:
-      'Micro-position detected. Trading fees may consume 15-25% of potential profits. Consider position sizing optimization.',
-    emoji: '🔬',
-  },
-  {
-    condition: (params: any) => params.leverage >= 4 && params.leverage <= 8,
-    advice:
-      'Optimal leverage range identified. Risk-reward ratio analysis shows 67% higher success rate in this range.',
-    emoji: '✅',
+      'Small scalping position: Consider increasing to $20-50 with 25-40x leverage for meaningful 1-min scalping profits.',
+    emoji: '📈',
   },
 
-  // Рыночные условия и советы по входу
+  // Скальпинг стратегии и советы по входу
+  {
+    condition: () => Math.random() < 0.25,
+    advice:
+      '1-min chart analysis: Look for wick rejections at support/resistance. Enter with 20-35x leverage for quick scalp profits.',
+    emoji: '📊',
+  },
+  {
+    condition: () => Math.random() < 0.25,
+    advice:
+      'Scalping opportunity: Volume spike detected on 1-min. Consider 25-45x leverage entry on momentum continuation.',
+    emoji: '📢',
+  },
+  {
+    condition: () => Math.random() < 0.25,
+    advice:
+      'Micro-timeframe setup: RSI divergence on 1-min chart. Perfect for 30-50x leverage scalp with tight 2-3 tick stops.',
+    emoji: '🎪',
+  },
   {
     condition: () => Math.random() < 0.2,
     advice:
-      'Market sentiment analysis: Current volatility suggests waiting for clearer directional signals before entry.',
+      '1-min breakout pattern forming. Prepare 20-40x leverage position for quick breakout scalp. Target 5-10 tick moves.',
+    emoji: '💥',
+  },
+  {
+    condition: () => Math.random() < 0.2,
+    advice:
+      'Scalping window open: Low spread detected. Ideal conditions for 25-60x leverage micro-moves on 1-min chart.',
+    emoji: '🪟',
+  },
+  {
+    condition: () => Math.random() < 0.2,
+    advice:
+      'Order flow imbalance detected on 1-min. Consider aggressive 35-55x leverage for quick liquidity grab scalp.',
     emoji: '🌊',
   },
   {
-    condition: () => Math.random() < 0.2,
+    condition: () => Math.random() < 0.15,
     advice:
-      'Technical indicators show potential reversal zones. Consider DCA strategy for position building.',
-    emoji: '📈',
-  },
-  {
-    condition: () => Math.random() < 0.2,
-    advice:
-      'Volume analysis indicates institutional accumulation. Bullish bias with 62% confidence level.',
-    emoji: '🐂',
-  },
-  {
-    condition: () => Math.random() < 0.2,
-    advice:
-      'Correlation matrix shows DOGE following broader crypto trends. Monitor BTC dominance for entry timing.',
-    emoji: '🔗',
+      'High frequency trading window: Market makers stepping back. Perfect for 40-70x leverage scalping opportunities.',
+    emoji: '🏃‍♂️',
   },
   {
     condition: () => Math.random() < 0.15,
     advice:
-      'Support/resistance levels updated. Key zones identified at $0.195 and $0.235 for optimal entry points.',
-    emoji: '🎯',
+      '1-min chart momentum building. AI suggests 25-45x leverage for capturing micro-trend continuation moves.',
+    emoji: '🌪️',
   },
   {
     condition: () => Math.random() < 0.15,
     advice:
-      'Funding rates analysis suggests long positions currently cost 0.05% per 8h. Factor into strategy.',
-    emoji: '💰',
-  },
-
-  // Общие AI советы для входа
-  {
-    condition: () => Math.random() < 0.1,
-    advice:
-      'AI pattern recognition: Similar setups historically showed 58% success rate. Proceed with calculated risk.',
-    emoji: '🤖',
+      'Scalper alert: Tight consolidation on 1-min. Breakout imminent - prepare 30-50x leverage for explosive move.',
+    emoji: '💣',
   },
   {
     condition: () => Math.random() < 0.1,
     advice:
-      'Machine learning model suggests optimal entry window in next 2-4 hours based on volatility patterns.',
-    emoji: '⏰',
+      'Advanced scalping: Neural networks detect optimal entry in next 30-60 seconds. Use 25-40x leverage.',
+    emoji: '🧠',
+  },
+  {
+    condition: () => Math.random() < 0.1,
+    advice:
+      'Speed trading mode: 1-min chart velocity increasing. Quick 20-35x leverage scalp recommended.',
+    emoji: '💨',
+  },
+  {
+    condition: () => Math.random() < 0.1,
+    advice:
+      'Micro-scalping setup: Price action tightening on 1-min. 40-60x leverage for tick-by-tick profit capture.',
+    emoji: '🔬',
   },
 ]
 
 // Советы для пользователей С открытыми позициями
 const AI_ADVICE_IN_POSITION = [
-  // Прибыльные позиции
+  // Прибыльные позиции для скальпинга
   {
     condition: (params: any) => params.currentPositionPnL > 50,
     advice:
-      'Position showing strong profit! Consider taking partial profits (25-50%) and moving stop-loss to breakeven.',
+      'Scalp profit secured! Quick 1-min move captured. Consider taking 50-75% profits and re-enter on next setup.',
     emoji: '💚',
   },
   {
     condition: (params: any) => params.currentPositionPnL > 100,
     advice:
-      'Excellent performance! Risk management suggests securing 30-40% profits. Let remaining position ride with trailing stop.',
-    emoji: '🚀',
+      'EXCELLENT scalp! Big 1-min move captured with high leverage. Secure 60-80% profits, let remainder run.',
+    emoji: '🎉',
   },
   {
     condition: (params: any) =>
       params.currentPositionPnL > 20 && params.currentPositionPnL <= 50,
     advice:
-      'Modest gains detected. Consider adjusting stop-loss to +5% to protect capital while allowing upside.',
+      'Good scalping profit! 1-min move developing. Move stop to breakeven and target next resistance/support.',
     emoji: '📈',
   },
-
-  // Убыточные позиции
   {
-    condition: (params: any) => params.currentPositionPnL < -30,
+    condition: (params: any) =>
+      params.currentPositionPnL > 10 && params.currentPositionPnL <= 20,
     advice:
-      'Position in red zone. Cut losses at -40% or add to position only if conviction remains high. Risk management crucial.',
-    emoji: '🔴',
+      'Small scalp profit building. On 1-min chart, even small moves matter with high leverage. Hold for more.',
+    emoji: '⚡',
+  },
+
+  // Убыточные позиции для скальпинга
+  {
+    condition: (params: any) => params.currentPositionPnL < -20,
+    advice:
+      'Scalp going wrong! Cut losses quickly on 1-min chart. High leverage means fast action needed. Exit now!',
+    emoji: '🛑',
   },
   {
     condition: (params: any) => params.currentPositionPnL < -50,
     advice:
-      'CRITICAL: Heavy losses detected. Consider immediate exit or hedge with opposite position. Preserve capital for next opportunity.',
-    emoji: '⛑️',
+      'CRITICAL scalping loss! 1-min chart moved against you. Emergency exit required. Preserve capital for next scalp.',
+    emoji: '🚨',
   },
   {
     condition: (params: any) =>
-      params.currentPositionPnL < -10 && params.currentPositionPnL >= -30,
+      params.currentPositionPnL < -10 && params.currentPositionPnL >= -20,
     advice:
-      'Minor drawdown within normal range. Hold conviction but prepare exit strategy if -35% level breached.',
+      'Minor scalping drawdown. Normal on 1-min charts with high leverage. Give it 1-2 more candles max.',
     emoji: '⚠️',
   },
 
-  // Нейтральные позиции
+  // Нейтральные позиции для скальпинга
   {
     condition: (params: any) => Math.abs(params.currentPositionPnL) <= 10,
     advice:
-      'Position consolidating near entry. Patience required. Market may be building energy for next directional move.',
+      'Scalp position neutral. 1-min chart consolidating. High leverage position needs direction soon. Be ready.',
     emoji: '⏳',
   },
 
-  // Советы по направлению позиции
+  // Советы по направлению позиции для скальпинга
   {
     condition: (params: any) => params.currentPositionDirection === 'LONG',
     advice:
-      'LONG position active. Monitor resistance levels and consider profit-taking near previous highs. Bullish momentum tracking.',
+      'LONG scalp active on 1-min. Watch for quick rejection at resistance. Take profits fast on momentum stall.',
     emoji: '🟢',
   },
   {
     condition: (params: any) => params.currentPositionDirection === 'SHORT',
     advice:
-      'SHORT position active. Watch for support breaks and potential capitulation signals. Bearish sentiment confirmed.',
+      'SHORT scalp running on 1-min. Monitor support breaks. High leverage means quick profits on continuation.',
     emoji: '🔴',
   },
 
-  // Размер позиции в контексте
+  // Размер позиции в контексте скальпинга
   {
     condition: (params: any) => params.currentPositionSize > 1000,
     advice:
-      'Large position exposure detected. Consider hedging strategies or gradual profit-taking to manage concentration risk.',
+      'Large scalping position with high leverage! Monitor every tick on 1-min chart. Quick profits or quick exit.',
     emoji: '🏗️',
   },
-
-  // Общие советы для активных позиций
   {
-    condition: () => Math.random() < 0.15,
+    condition: (params: any) => params.currentPositionSize > 2000,
     advice:
-      'Active position requires monitoring. Set alerts at key levels and avoid emotional decision-making.',
+      'MASSIVE scalping exposure! Ultra-high leverage on 1-min chart. Extreme profit potential but manage risk!',
+    emoji: '🏭',
+  },
+
+  // Специфичные советы для активных скальпинг позиций
+  {
+    condition: () => Math.random() < 0.2,
+    advice:
+      'Active scalp on 1-min: Every second counts. Watch price action closely. High leverage amplifies every move.',
     emoji: '👁️',
   },
   {
+    condition: () => Math.random() < 0.2,
+    advice:
+      'Scalping position live: 1-min chart momentum can shift instantly. Be ready for quick exit or profit-taking.',
+    emoji: '⚡',
+  },
+  {
     condition: () => Math.random() < 0.15,
     advice:
-      'Time decay working. Consider position duration vs initial strategy. Markets reward patience but punish stubbornness.',
-    emoji: '⌛',
+      'High leverage scalp running: Time is money on 1-min charts. Dont hold positions too long. Quick in, quick out.',
+    emoji: '⏰',
+  },
+  {
+    condition: () => Math.random() < 0.15,
+    advice:
+      'Tick-by-tick monitoring: Your high leverage position on 1-min chart requires constant attention. Stay focused.',
+    emoji: '🎯',
   },
   {
     condition: () => Math.random() < 0.1,
     advice:
-      'Neural networks suggest correlation changes ahead. Monitor broader market conditions for position adjustments.',
+      'Advanced scalping mode: Neural networks tracking your 1-min position. Micro-adjustments suggested.',
     emoji: '🕸️',
+  },
+  {
+    condition: () => Math.random() < 0.1,
+    advice:
+      'Speed trading active: 1-min scalp in progress. High leverage means volatility is your friend. Ride the waves.',
+    emoji: '🌊',
+  },
+  {
+    condition: () => Math.random() < 0.1,
+    advice:
+      'Micro-timeframe position: Every candle matters on 1-min with high leverage. Trust your entry, manage your exit.',
+    emoji: '🕯️',
   },
 ]
 
@@ -269,12 +334,14 @@ const VibeTrader = () => {
   }
 
   const getRandomPosition = () => {
-    // Set random amount between $10-100
-    const randomAmount = Math.floor(Math.random() * 90) + 10
+    // Set random amount between $20-150 for scalping
+    const randomAmount = Math.floor(Math.random() * 130) + 20
     setPayAmount(randomAmount)
 
-    // Set random leverage between 2x and 20x with bias towards safer ranges
-    const leverageOptions = [2, 3, 4, 5, 5, 6, 7, 8, 10, 12, 15, 20]
+    // Set random leverage between 10x and 70x with bias towards scalping ranges
+    const leverageOptions = [
+      10, 15, 20, 20, 25, 25, 30, 30, 35, 40, 45, 50, 55, 60, 70,
+    ]
     const randomLeverage =
       leverageOptions[Math.floor(Math.random() * leverageOptions.length)]
     setLeverage(randomLeverage)
