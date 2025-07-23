@@ -8,6 +8,11 @@ interface OBState {
   positionSize: number
   potentialProfit: { min: number; max: number }
   liquidationPrice: number
+  // Добавляем состояние позиций
+  hasActivePosition: boolean
+  currentPositionPnL: number
+  currentPositionDirection: 'LONG' | 'SHORT' | null
+  currentPositionSize: number
 }
 
 type OBAction = {
@@ -30,6 +35,10 @@ export const useStore = create<OBState & OBAction>(
       positionSize: 20,
       potentialProfit: { min: 10, max: 20 },
       liquidationPrice: 0,
+      hasActivePosition: false,
+      currentPositionPnL: 0,
+      currentPositionDirection: null,
+      currentPositionSize: 0,
 
       toggleSound: () => set((state) => ({ isSound: !state.isSound })),
 
@@ -69,6 +78,11 @@ export const useStore = create<OBState & OBAction>(
 
       openLongPosition: () => {
         const { payAmount, leverage, positionSize } = get()
+        set({
+          hasActivePosition: true,
+          currentPositionDirection: 'LONG',
+          currentPositionSize: positionSize,
+        })
         console.log('Opening LONG position:', {
           payAmount,
           leverage,
@@ -79,6 +93,11 @@ export const useStore = create<OBState & OBAction>(
 
       openShortPosition: () => {
         const { payAmount, leverage, positionSize } = get()
+        set({
+          hasActivePosition: true,
+          currentPositionDirection: 'SHORT',
+          currentPositionSize: positionSize,
+        })
         console.log('Opening SHORT position:', {
           payAmount,
           leverage,
