@@ -1,7 +1,31 @@
 {
   "$schema": "node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "maxSize": 18446744073709551615
+    "ignore": [
+      "_cjs",
+      "_esm",
+      "_types",
+      ".turbo",
+      ".next",
+      ".mesh",
+      ".graphclient",
+      ".storybook",
+      "storybook-static",
+      "node_modules",
+      "**/node_modules",
+      "CHANGELOG.md",
+      "dist",
+      "artifacts",
+      "cache",
+      "coverage",
+      "deployments",
+      "test-results",
+      "test/contracts",
+      "typechain",
+      "tsconfig.json",
+      "tsconfig.*.json",
+      "packages/wagmi/src/hooks/exploits/data/rp2-approvals.json"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -26,13 +50,27 @@
         "noUnusedImports": "error",
         "useExhaustiveDependencies": "error"
       },
+      "performance": {
+        "noDelete": "off"
+      },
+      "style": {
+        "noNonNullAssertion": "off",
+        "noParameterAssign": "off",
+        "useShorthandArrayType": "error",
+        "noUselessElse": "off",
+        "noUnusedTemplateLiteral": "off"
+      },
       "suspicious": {
         "noArrayIndexKey": "off",
-        "noConsole": "error"
+        "noExplicitAny": "off",
+        "noImplicitAnyLet": "off"
       },
       "complexity": {
+        "useLiteralKeys": "off",
+        "noForEach": "off",
         "noStaticOnlyClass": "off",
-        "useLiteralKeys": "off"
+        "noThisInStatic": "off",
+        "useSimpleNumberKeys": "off"
       },
       "security": {
         "noDangerouslySetInnerHtml": "off"
@@ -46,9 +84,17 @@
       "semicolons": "asNeeded"
     }
   },
+  "organizeImports": {
+    "enabled": true
+  },
   "vcs": {
     "enabled": true,
     "clientKind": "git",
     "useIgnoreFile": true
-  }
+  },
+  "overrides": [
+    {
+      "include": ["*.test.ts", "*.test.tsx", "packages/db", "*.script.ts"]
+    }
+  ]
 }

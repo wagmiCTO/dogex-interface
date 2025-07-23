@@ -1,6 +1,5 @@
-import { type Address, parseEther } from 'viem'
+import { type Address, defineChain, parseEther } from 'viem'
 import { arbitrum } from 'viem/chains'
-import type { FootLink, SocialMedia } from '@/lib/types'
 
 export const USDC = {
   address: '0x8af03F9874b18d1Bd6283B107Daa7B2fCa29EAD1',
@@ -60,3 +59,21 @@ export const MARGIN_FEE_BASIS_POINTS = 10
 export const BASIS_POINTS_DIVISOR_BIGINT = 10000n
 export const USD_DECIMALS = 30
 export const PENDING_POSITION_VALID_DURATION = 600 * 1000
+
+export const hyperion = defineChain({
+  id: 133717,
+  name: 'Hyperion tetsnet',
+  nativeCurrency: { name: 'tMETIS', symbol: 'tMETIS', decimals: 18 },
+  rpcUrls: {
+    default: {
+      http: ['https://hyperion-testnet.metisdevops.link'],
+    },
+  },
+  blockExplorers: {
+    default: {
+      name: 'Hyperionscan',
+      url: 'https://hyperion-testnet-explorer.metisdevops.link',
+    },
+  },
+  testnet: true,
+})

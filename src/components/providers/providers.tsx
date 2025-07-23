@@ -5,11 +5,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { sepolia } from 'viem/chains'
 import { WagmiProvider } from 'wagmi'
 import ObRainbowKitProvider from '@/components/providers/ob-rainbowkit-provider'
+import { hyperion } from '@/lib/constant'
 
 export const config = getDefaultConfig({
   appName: 'DogEx',
   projectId: '442a9cb141f0cc2019c88cce66649b02',
-  chains: [sepolia],
+  chains: [hyperion],
   ssr: true,
 })
 

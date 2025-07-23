@@ -1,27 +1,31 @@
-import type { Address } from "viem";
-import { arbitrum, arbitrumSepolia, sepolia } from "viem/chains";
+import type { Address } from 'viem'
+import { arbitrum, arbitrumSepolia, sepolia } from 'viem/chains'
+import { hyperion } from '@/lib/constant'
 
 export const CONTRACTS: Record<number, { [key: string]: Address }> = {
-	[arbitrum.id]: {
-		// arbitrum mainnet
-		Vault: "0x489ee077994B6658eAfA855C308275EAd8097C4A", //gmx now
-	},
-	[sepolia.id]: {
-		Dogex: "0x560B2b86066742302417bf28Da2142d1aD81F773",
-	},
-};
+  [arbitrum.id]: {
+    // arbitrum mainnet
+    Vault: '0x489ee077994B6658eAfA855C308275EAd8097C4A', //gmx now
+  },
+  [sepolia.id]: {
+    Dogex: '0x560B2b86066742302417bf28Da2142d1aD81F773',
+  },
+  [hyperion.id]: {
+    Dogex: '0xa1c6144c2aFa413329A82A942237Af2ED8452a03',
+  },
+}
 
 export function getContract(
-	chainId: number | undefined,
-	name: string,
+  chainId: number | undefined,
+  name: string,
 ): Address {
-	if (!chainId || !CONTRACTS[chainId]) {
-		throw new Error(`Unknown chainId ${chainId}`);
-	}
+  if (!chainId || !CONTRACTS[chainId]) {
+    throw new Error(`Unknown chainId ${chainId}`)
+  }
 
-	if (!CONTRACTS[chainId][name]) {
-		throw new Error(`Unknown contract "${name}" for chainId ${chainId}`);
-	}
+  if (!CONTRACTS[chainId][name]) {
+    throw new Error(`Unknown contract "${name}" for chainId ${chainId}`)
+  }
 
-	return CONTRACTS[chainId][name];
+  return CONTRACTS[chainId][name]
 }
