@@ -1,10 +1,10 @@
-import { useCallback } from 'react'
-import { useAccount, useWriteContract } from 'wagmi'
 import { DOGEX_ABI } from '@/lib/abis/dogex'
 import { USDC } from '@/lib/constant'
 import { getContract } from '@/lib/contracts'
 import type { ContractPosition } from '@/lib/types'
 import { calculateLiquidationPrice, formatAmount } from '@/lib/utils'
+import { useCallback } from 'react'
+import { useAccount, useWriteContract } from 'wagmi'
 
 interface CurrentPositionProps {
   position: ContractPosition
@@ -25,6 +25,7 @@ const CurrentPosition = ({ position }: CurrentPositionProps) => {
   }
 
   const dogexAddress = getContract(chainId, 'Dogex')
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const onClosePosition = useCallback(async () => {
     writeContractAsync({
       abi: DOGEX_ABI,
