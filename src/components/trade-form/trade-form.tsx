@@ -1,37 +1,20 @@
 'use client'
 
 import CurrentPosition from '@/components/trade-form/current-position/current-position'
-import { DOGEX_ABI } from '@/lib/abis/dogex'
-import { getContract } from '@/lib/contracts'
 import type { ContractPosition } from '@/lib/types'
-import { useAccount, useChainId, useReadContract } from 'wagmi'
 import { LeverageSlider } from './leverage-slider'
 import { PayAmount } from './pay-amount'
 import { PositionInfo } from './position-info'
 import { TradeDirectionButtons } from './trade-direction-buttons'
 
-const TradeForm = () => {
-  const chainId = useChainId()
-  const { address } = useAccount()
-  const dogexAddress = getContract(chainId, 'Dogex')
+type TradeFormProps = {
+  positionData: ContractPosition | undefined
+}
 
-  const { data: positionData } = useReadContract({
-    address: dogexAddress,
-    abi: DOGEX_ABI,
-    functionName: 'getPosition',
-    chainId,
-    args: [address],
-    query: {
-      enabled: !!address,
-      refetchInterval: 500,
-    },
-  }) as { data: ContractPosition | undefined }
-
-  const hasPositions = !!positionData?.isActive
-
+const TradeForm = ({ positionData }: TradeFormProps) => {
   return (
     <div className="max-w-md mx-auto bg-gray-900 border border-gray-700 rounded-2xl p-6 space-y-6 shadow-2xl backdrop-blur-sm min-w-[420px]">
-      {hasPositions && positionData ? (
+      {positionData?.isActive && positionData ? (
         <CurrentPosition position={positionData} />
       ) : (
         <>

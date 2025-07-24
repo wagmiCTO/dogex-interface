@@ -1,9 +1,12 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { USDC } from '@/lib/constant'
+import type { ContractPosition } from '@/lib/types'
 import { useOBStore } from '@/store/store'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
+import { formatUnits } from 'viem'
 
 // Советы для пользователей БЕЗ открытых позиций
 const AI_ADVICE_NO_POSITION = [
@@ -258,16 +261,21 @@ const AI_ADVICE_IN_POSITION = [
   },
 ]
 
-const VibeTrader = () => {
+type VibeTraderProps = {
+  positionData: ContractPosition | undefined
+}
+
+const VibeTrader = ({ positionData }: VibeTraderProps) => {
+  const hasActivePosition = !!positionData?.isActive
+  const currentPositionPnL = Number(
+    formatUnits(positionData?.pnl ?? 0n, USDC.decimal),
+  )
+
   const {
     payAmount,
     leverage,
     positionSize,
     potentialProfit,
-    hasActivePosition,
-    currentPositionPnL,
-    currentPositionDirection,
-    currentPositionSize,
     setPayAmount,
     setLeverage,
   } = useOBStore()
@@ -281,8 +289,8 @@ const VibeTrader = () => {
       positionSize,
       potentialProfit,
       currentPositionPnL,
-      currentPositionDirection,
-      currentPositionSize,
+      currentPositionDirection: positionData?.isLong ? 'LONG' : 'SHORT',
+      currentPositionSize: positionSize,
     }
 
     // Выбираем массив советов в зависимости от наличия позиции
@@ -319,8 +327,7 @@ const VibeTrader = () => {
     potentialProfit,
     hasActivePosition,
     currentPositionPnL,
-    currentPositionDirection,
-    currentPositionSize,
+    positionData?.isLong,
   ])
 
   const getRandomAdvice = () => {

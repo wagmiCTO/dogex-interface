@@ -1,5 +1,5 @@
-import { create } from 'zustand'
 import { createSelectors } from '@/store/create-selectors'
+import { create } from 'zustand'
 
 interface OBState {
   isSound: boolean
@@ -8,11 +8,7 @@ interface OBState {
   positionSize: number
   potentialProfit: { min: number; max: number }
   liquidationPrice: number
-  // Добавляем состояние позиций
   hasActivePosition: boolean
-  currentPositionPnL: number
-  currentPositionDirection: 'LONG' | 'SHORT' | null
-  currentPositionSize: number
 }
 
 type OBAction = {
@@ -22,8 +18,7 @@ type OBAction = {
   calculatePositionSize: () => void
   calculatePotentialProfit: () => void
   calculateLiquidationPrice: () => void
-  openLongPosition: () => void
-  openShortPosition: () => void
+  setHasActivePosition: (hasPosition: boolean) => void
 }
 
 export const useStore = create<OBState & OBAction>(
@@ -31,14 +26,11 @@ export const useStore = create<OBState & OBAction>(
     ({
       isSound: true,
       payAmount: 10,
-      leverage: 2,
-      positionSize: 20,
+      leverage: 10,
+      positionSize: 200,
       potentialProfit: { min: 10, max: 20 },
       liquidationPrice: 0,
       hasActivePosition: false,
-      currentPositionPnL: 0,
-      currentPositionDirection: null,
-      currentPositionSize: 0,
 
       toggleSound: () => set((state) => ({ isSound: !state.isSound })),
 
@@ -76,34 +68,8 @@ export const useStore = create<OBState & OBAction>(
         set({ liquidationPrice: currentPrice - liquidationDistance })
       },
 
-      openLongPosition: () => {
-        const { payAmount, leverage, positionSize } = get()
-        set({
-          hasActivePosition: true,
-          currentPositionDirection: 'LONG',
-          currentPositionSize: positionSize,
-        })
-        console.log('Opening LONG position:', {
-          payAmount,
-          leverage,
-          positionSize,
-          direction: 'LONG',
-        })
-      },
-
-      openShortPosition: () => {
-        const { payAmount, leverage, positionSize } = get()
-        set({
-          hasActivePosition: true,
-          currentPositionDirection: 'SHORT',
-          currentPositionSize: positionSize,
-        })
-        console.log('Opening SHORT position:', {
-          payAmount,
-          leverage,
-          positionSize,
-          direction: 'SHORT',
-        })
+      setHasActivePosition: (hasPosition: boolean) => {
+        set({ hasActivePosition: hasPosition })
       },
     }) as const,
 )
