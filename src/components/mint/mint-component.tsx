@@ -160,6 +160,15 @@ export default function MintComponent() {
       <div className="mt-6 text-xs text-gray-400 text-center">
         <p>• You can only mint if your balance is 100 USDC or less</p>
         <p>• Each mint gives you 1,000 USDC</p>
+        <p>• Need gas for transactions? Get testnet ETH from the faucet:</p>
+        <a
+          href="https://t.me/hyperion_testnet_bot"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-400 hover:text-blue-300 underline"
+        >
+          @hyperion_testnet_bot
+        </a>
       </div>
     </div>
   )
