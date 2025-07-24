@@ -1,10 +1,26 @@
 'use client'
 
+import { USDC } from '@/lib/constant'
 import { useOBStore } from '@/store/store'
+import { erc20Abi, formatUnits } from 'viem'
+import { useAccount, useReadContract } from 'wagmi'
 
 export const PayAmount = () => {
   const payAmount = useOBStore.use.payAmount()
   const setPayAmount = useOBStore.use.setPayAmount()
+  const { address } = useAccount()
+
+  const { data: balance } = useReadContract({
+    abi: erc20Abi,
+    address: USDC.address as `0x${string}`,
+    functionName: 'balanceOf',
+    args: address ? [address] : undefined,
+    query: {
+      enabled: !!address,
+    },
+  })
+
+  const usdcBalance = balance ? Number(formatUnits(balance, USDC.decimal)) : 0
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value)
@@ -39,6 +55,22 @@ export const PayAmount = () => {
           USDC
         </span>
       </div>
+
+      {address && (
+        <div className="flex justify-between items-center mt-2 px-1">
+          <span className="text-xs text-gray-500">
+            Balance: {usdcBalance.toFixed(2)} USDC
+          </span>
+          <button
+            type="button"
+            onClick={() => setPayAmount(Math.floor(usdcBalance * 100) / 100)}
+            className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
+            disabled={usdcBalance === 0}
+          >
+            Max
+          </button>
+        </div>
+      )}
     </div>
   )
 }
