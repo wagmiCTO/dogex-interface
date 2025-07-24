@@ -1,9 +1,9 @@
 'use client'
 
-import Image from 'next/image'
-import { useCallback, useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { useOBStore } from '@/store/store'
+import Image from 'next/image'
+import { useCallback, useEffect, useState } from 'react'
 
 // Советы для пользователей БЕЗ открытых позиций
 const AI_ADVICE_NO_POSITION = [
@@ -375,7 +375,7 @@ const VibeTrader = () => {
             priority
           />
           {hasActivePosition && (
-            <div className="absolute top-2 right-2 w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+            <div className="absolute top-2 right-2 w-3 h-3 bg-green-400 rounded-full animate-pulse" />
           )}
         </div>
 

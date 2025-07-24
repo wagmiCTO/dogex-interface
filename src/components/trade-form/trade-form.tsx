@@ -1,10 +1,10 @@
 'use client'
 
-import { useAccount, useChainId, useReadContract } from 'wagmi'
 import CurrentPosition from '@/components/trade-form/current-position/current-position'
 import { DOGEX_ABI } from '@/lib/abis/dogex'
 import { getContract } from '@/lib/contracts'
 import type { ContractPosition } from '@/lib/types'
+import { useAccount, useChainId, useReadContract } from 'wagmi'
 import { LeverageSlider } from './leverage-slider'
 import { PayAmount } from './pay-amount'
 import { PositionInfo } from './position-info'
@@ -30,7 +30,7 @@ const TradeForm = () => {
   const hasPositions = !!positionData?.isActive
 
   return (
-    <div className="max-w-md mx-auto bg-gray-900 border border-gray-700 rounded-2xl p-6 space-y-6 shadow-2xl backdrop-blur-sm">
+    <div className="max-w-md mx-auto bg-gray-900 border border-gray-700 rounded-2xl p-6 space-y-6 shadow-2xl backdrop-blur-sm min-w-[420px]">
       {hasPositions && positionData ? (
         <CurrentPosition position={positionData} />
       ) : (

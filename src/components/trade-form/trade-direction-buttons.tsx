@@ -1,10 +1,10 @@
 'use client'
 
-import { erc20Abi, parseUnits } from 'viem'
-import { useAccount, useChainId, useReadContract } from 'wagmi'
 import { USDC } from '@/lib/constant'
 import { getContract } from '@/lib/contracts'
 import { useOBStore } from '@/store/store'
+import { erc20Abi, parseUnits } from 'viem'
+import { useAccount, useChainId, useReadContract } from 'wagmi'
 import { TradeButtons } from './trade-buttons'
 import { UsdcApprovalButton } from './usdc-approval-button'
 
@@ -27,7 +27,9 @@ export const TradeDirectionButtons = () => {
   })
 
   const requiredAmount = parseUnits(String(payAmount), USDC.decimal)
-  const needsApproval = allowance !== undefined && allowance < requiredAmount
+  const needsApproval =
+    (allowance !== undefined && allowance < requiredAmount) ||
+    allowance === undefined
 
   const handleApprovalSuccess = () => {
     refetchAllowance()

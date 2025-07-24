@@ -1,6 +1,6 @@
-import type { Address } from 'viem'
-import { arbitrum, arbitrumSepolia, sepolia } from 'viem/chains'
 import { hyperion } from '@/lib/constant'
+import type { Address } from 'viem'
+import { arbitrum, sepolia } from 'viem/chains'
 
 export const CONTRACTS: Record<number, { [key: string]: Address }> = {
   [arbitrum.id]: {
