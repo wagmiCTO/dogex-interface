@@ -13,7 +13,7 @@ type TradeFormProps = {
 
 const TradeForm = ({ positionData }: TradeFormProps) => {
   return (
-    <div className="max-w-md mx-auto bg-gray-900 border border-gray-700 rounded-2xl p-6 space-y-6 shadow-2xl backdrop-blur-sm min-w-[420px]">
+    <div className="max-w-md mx-auto bg-gray-900 border border-gray-700 rounded-2xl p-6 space-y-6 shadow-2xl backdrop-blur-sm min-w-[320px] md:min-w-[420px]">
       {positionData?.isActive && positionData ? (
         <CurrentPosition position={positionData} />
       ) : (

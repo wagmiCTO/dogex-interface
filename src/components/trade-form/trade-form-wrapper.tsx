@@ -24,7 +24,7 @@ const TradeFormWrapper = () => {
   }) as { data: ContractPosition | undefined }
 
   return (
-    <div className="flex flex-row gap-4">
+    <div className="flex flex-col md:flex-row gap-4">
       <TradeForm positionData={positionData} />
       <VibeTrader positionData={positionData} />
     </div>

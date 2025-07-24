@@ -1,12 +1,22 @@
 'use client'
 
-import { memo, useEffect, useRef } from 'react'
+import { useMobile } from '@/hooks/use-mobile'
+import { memo, useEffect, useRef, useState } from 'react'
 
 function TradingViewWidget() {
   const container = useRef<HTMLDivElement>(null)
   const widgetId = useRef(
     `tradingview_${Math.random().toString(36).substring(2, 9)}`,
   )
+  const isMobile = useMobile()
+  const [dimensions, setDimensions] = useState({ width: 890, height: 500 })
+
+  useEffect(() => {
+    setDimensions({
+      width: isMobile ? 320 : 890,
+      height: isMobile ? 400 : 500,
+    })
+  }, [isMobile])
 
   useEffect(() => {
     if (!container.current) return
@@ -45,8 +55,8 @@ function TradingViewWidget() {
       withdateranges: false,
       compareSymbols: [],
       studies: [],
-      width: 890,
-      height: 500,
+      width: dimensions.width,
+      height: dimensions.height,
       container_id: widgetId.current,
     })
 
@@ -62,9 +72,19 @@ function TradingViewWidget() {
         } catch {}
       }
     }
-  }, [])
+  }, [dimensions])
 
-  return <div className="tradingview-widget-container" ref={container} />
+  return (
+    <div
+      className="tradingview-widget-container"
+      style={{
+        height: `${dimensions.height}px`,
+        width: `${dimensions.width}px`,
+      }}
+    >
+      <div ref={container} />
+    </div>
+  )
 }
 
 export default memo(TradingViewWidget)

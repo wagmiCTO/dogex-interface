@@ -362,7 +362,7 @@ const VibeTrader = ({ positionData }: VibeTraderProps) => {
   }, [getAIAdvice])
 
   return (
-    <div className="max-w-md mx-auto bg-gray-900 border border-gray-700 rounded-2xl p-6 space-y-4 shadow-2xl backdrop-blur-sm">
+    <div className="md:max-w-md max-w-[320px] mx-auto bg-gray-900 border border-gray-700 rounded-2xl p-6 space-y-4 shadow-2xl backdrop-blur-sm">
       <div className="text-center">
         <div className="flex items-center justify-center gap-2 mb-4">
           <h2 className="text-xl font-bold text-white">AI Vibe Trader</h2>
