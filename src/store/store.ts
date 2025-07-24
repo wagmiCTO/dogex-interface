@@ -27,7 +27,7 @@ export const useStore = create<OBState & OBAction>(
       isSound: true,
       payAmount: 10,
       leverage: 10,
-      positionSize: 200,
+      positionSize: 100,
       potentialProfit: { min: 10, max: 20 },
       liquidationPrice: 0,
       hasActivePosition: false,

@@ -19,7 +19,7 @@ export const PositionInfo = () => {
         </div>
       </div>
 
-      <div className="border-t border-gray-700/30"></div>
+      <div className="border-t border-gray-700/30" />
 
       <div className="grid grid-cols-2 gap-4 text-sm">
         <div className="text-center">
