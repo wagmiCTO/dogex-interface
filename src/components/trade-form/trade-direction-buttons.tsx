@@ -55,6 +55,18 @@ export const TradeDirectionButtons = () => {
     router.push('/mint')
   }
 
+  // Block when wallet is not connected
+  if (!address) {
+    return (
+      <Button
+        disabled
+        className="w-full bg-gray-600 text-gray-400 font-semibold py-3 px-4 rounded-lg cursor-not-allowed"
+      >
+        Connect Wallet
+      </Button>
+    )
+  }
+
   if (hasLowBalance && address) {
     return (
       <div className="space-y-3">
