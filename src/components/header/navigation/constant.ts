@@ -11,4 +11,8 @@ export const HEADER_NAVIGATION_LINKS = [
     label: 'Stake',
     address: '/stake',
   },
+  {
+    label: 'Mint TEST USDC',
+    address: '/mint',
+  },
 ]

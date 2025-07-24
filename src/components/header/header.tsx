@@ -1,8 +1,8 @@
+import MobileNavigation from '@/components/header/navigation/mobile-navigation'
+import { Navigation } from '@/components/header/navigation/navigation'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import Image from 'next/image'
 import Link from 'next/link'
-import MobileNavigation from '@/components/header/navigation/mobile-navigation'
-import { Navigation } from '@/components/header/navigation/navigation'
 
 export function Header() {
   return (
@@ -22,7 +22,7 @@ export function Header() {
               </Link>
             </div>
           </div>
-          <div className="h-full ml-4 mr-4 hidden sm:flex"></div>
+          <div className="h-full ml-4 mr-4 hidden sm:flex" />
           <Navigation />
         </div>
 
