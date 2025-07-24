@@ -64,7 +64,7 @@ export const PayAmount = () => {
           <button
             type="button"
             onClick={() => setPayAmount(Math.floor(usdcBalance * 100) / 100)}
-            className="text-xs text-blue-400 hover:text-blue-300 transition-colors"
+            className="text-xs text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
             disabled={usdcBalance === 0}
           >
             Max
