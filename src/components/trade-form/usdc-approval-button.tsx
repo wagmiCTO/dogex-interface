@@ -1,10 +1,10 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
+import { USDC } from '@/lib/constant'
 import { useCallback } from 'react'
 import { erc20Abi, maxUint256 } from 'viem'
 import { useWriteContract } from 'wagmi'
-import { Button } from '@/components/ui/button'
-import { USDC } from '@/lib/constant'
 
 interface UsdcApprovalButtonProps {
   dogexAddress: `0x${string}`
@@ -25,7 +25,7 @@ export const UsdcApprovalButton = ({
       args: [dogexAddress, maxUint256],
     })
 
-    setTimeout(() => onApprovalSuccess(), 2000)
+    setTimeout(() => onApprovalSuccess(), 5000)
   }, [writeContractAsync, dogexAddress, onApprovalSuccess])
 
   return (
