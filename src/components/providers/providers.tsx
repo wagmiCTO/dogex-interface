@@ -1,11 +1,11 @@
 'use client'
 
-import { getDefaultConfig } from '@rainbow-me/rainbowkit'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { sepolia } from 'viem/chains'
-import { WagmiProvider } from 'wagmi'
+import { PostHogProvider } from '@/components/posthog-provider'
 import ObRainbowKitProvider from '@/components/providers/ob-rainbowkit-provider'
 import { hyperion } from '@/lib/constant'
+import { getDefaultConfig } from '@rainbow-me/rainbowkit'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { WagmiProvider } from 'wagmi'
 
 export const config = getDefaultConfig({
   appName: 'DogEx',
@@ -18,10 +18,12 @@ const queryClient = new QueryClient()
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <ObRainbowKitProvider>{children}</ObRainbowKitProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <PostHogProvider>
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <ObRainbowKitProvider>{children}</ObRainbowKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
+    </PostHogProvider>
   )
 }
