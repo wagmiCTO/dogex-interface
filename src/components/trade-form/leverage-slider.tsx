@@ -18,7 +18,8 @@ export const LeverageSlider = () => {
     if (lev <= 10) return 'Low Risk'
     if (lev <= 30) return 'Medium Risk'
     if (lev <= 50) return 'High Risk'
-    return 'EXTREME RISK'
+    if (lev <= 100) return 'EXTREME RISK'
+    return 'MAXIMUM RISK'
   }
 
   return (
@@ -40,7 +41,7 @@ export const LeverageSlider = () => {
           value={[leverage]}
           onValueChange={(value) => setLeverage(value[0])}
           min={10}
-          max={100}
+          max={200}
           step={1}
           className="w-full
             [&_[data-slot=slider-track]]:bg-gray-700
@@ -55,7 +56,7 @@ export const LeverageSlider = () => {
 
       <div className="flex justify-between text-sm px-4">
         <span className="text-gray-400">10x</span>
-        <span className="text-gray-400">100x</span>
+        <span className="text-gray-400">200x</span>
       </div>
     </div>
   )
