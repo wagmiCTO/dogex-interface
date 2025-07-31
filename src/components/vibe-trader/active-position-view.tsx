@@ -1,5 +1,6 @@
 'use client'
 
+import { analyzePosition } from '@/api/vibe-trader-api'
 import { Button } from '@/components/ui/button'
 import { USDC } from '@/lib/constant'
 import { getFallbackAdvice } from '@/lib/fallback-ai'
@@ -24,6 +25,10 @@ export const ActivePositionView = ({
 
   const [currentAdvice, setCurrentAdvice] = useState<string>('')
   const [currentEmoji, setCurrentEmoji] = useState<string>('🤖')
+  const [lastRefreshTime, setLastRefreshTime] = useState<number>(0)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [timeRemaining, setTimeRemaining] = useState<number>(0)
+  const [isInitialized, setIsInitialized] = useState<boolean>(false)
 
   const getAIAdvice = useCallback(() => {
     const params = {
@@ -52,13 +57,92 @@ export const ActivePositionView = ({
     positionData?.isLong,
   ])
 
-  const refreshAdvice = useCallback(() => {
-    getAIAdvice()
-  }, [getAIAdvice])
+  const refreshAdvice = useCallback(async () => {
+    const now = Date.now()
+    const timeSinceLastRefresh = now - lastRefreshTime
+    const RATE_LIMIT_MS = 2.5 * 60 * 1000 // 2.5 minutes
 
-  useEffect(() => {
+    if (timeSinceLastRefresh < RATE_LIMIT_MS) {
+      return // Rate limit: don't allow refresh more than once every 2.5 minutes
+    }
+
+    setIsLoading(true)
+    setLastRefreshTime(now)
+
+    try {
+      // First try to analyze position with API
+      if (positionData) {
+        const analyzeRequest = {
+          positionSize: Number(formatUnits(positionData.size, USDC.decimal)),
+          entryPrice: Number(formatUnits(positionData.entryPrice, 30)), // Use entryPrice from ContractPosition
+          liquidationPrice:
+            Number(formatUnits(positionData.entryPrice, 30)) * 0.9, // Estimate liquidation at 90% of entry for testing
+          currentPrice:
+            Number(formatUnits(positionData.entryPrice, 30)) +
+            (currentPositionPnL > 0 ? 100 : -100), // Estimate current price based on PnL
+          pnlSize: currentPositionPnL,
+        }
+
+        console.log('Sending analyze request:', analyzeRequest) // Debug log
+
+        const response = await analyzePosition(analyzeRequest)
+
+        if (response.success && response.analysis) {
+          setCurrentAdvice(response.analysis.aiAdvice)
+          setCurrentEmoji('🧠') // AI brain emoji for API responses
+          return
+        }
+      }
+    } catch (error) {
+      console.warn(
+        'Failed to get AI analysis, falling back to local advice:',
+        error,
+      )
+    } finally {
+      setIsLoading(false)
+    }
+
+    // Fallback to local AI logic
     getAIAdvice()
-  }, [getAIAdvice])
+  }, [positionData, currentPositionPnL, getAIAdvice, lastRefreshTime])
+
+  // Timer effect to update remaining time
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (lastRefreshTime > 0) {
+        const now = Date.now()
+        const timeSinceLastRefresh = now - lastRefreshTime
+        const RATE_LIMIT_MS = 2.5 * 60 * 1000 // 2.5 minutes
+        const remaining = Math.max(0, RATE_LIMIT_MS - timeSinceLastRefresh)
+        setTimeRemaining(remaining)
+      }
+    }, 1000)
+
+    return () => clearInterval(interval)
+  }, [lastRefreshTime])
+
+  // Helper function to format time remaining
+  const formatTimeRemaining = (ms: number): string => {
+    const totalSeconds = Math.ceil(ms / 1000)
+    const minutes = Math.floor(totalSeconds / 60)
+    const seconds = totalSeconds % 60
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`
+  }
+
+  const isRateLimited = timeRemaining > 0
+  const buttonText = isLoading
+    ? 'Analyzing...'
+    : isRateLimited
+      ? `Wait ${formatTimeRemaining(timeRemaining)}`
+      : 'Refresh Analysis'
+
+  // Only initialize once on mount, don't auto-update on position changes
+  useEffect(() => {
+    if (!isInitialized) {
+      getAIAdvice()
+      setIsInitialized(true)
+    }
+  }, [getAIAdvice, isInitialized])
 
   return (
     <div className="md:max-w-md max-w-[320px] mx-auto bg-gray-900 border border-gray-700 rounded-2xl p-6 space-y-4 shadow-2xl backdrop-blur-sm">
@@ -92,9 +176,10 @@ export const ActivePositionView = ({
 
         <Button
           onClick={refreshAdvice}
-          className="w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+          disabled={isLoading || isRateLimited}
+          className="w-full bg-teal-600 hover:bg-teal-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-medium py-2 px-4 rounded-lg transition-colors"
         >
-          Refresh Analysis
+          {buttonText}
         </Button>
 
         <p className="text-xs text-gray-500 mt-4">monitoring active position</p>
