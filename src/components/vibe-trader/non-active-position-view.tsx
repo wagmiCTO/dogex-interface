@@ -100,6 +100,18 @@ export const NonActivePositionView = () => {
           <h2 className="text-xl font-bold text-white">AI Vibe Trader</h2>
         </div>
 
+        <p className="text-xs text-gray-400 mb-4">
+          Powered by{' '}
+          <a
+            href="https://lazai.network/alith"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-teal-400 hover:text-teal-300 underline"
+          >
+            Alith AI
+          </a>
+        </p>
+
         <div className="relative w-48 h-48 mx-auto mb-4">
           <Image
             src="/vibe-trader/vibe-trader.jpg"
