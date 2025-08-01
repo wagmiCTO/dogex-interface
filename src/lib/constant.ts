@@ -32,7 +32,7 @@ export const USD_DECIMALS = 30
 export const PENDING_POSITION_VALID_DURATION = 600 * 1000
 
 // API Configuration
-export const API_BASE_URL = 'http://localhost:3001'
+export const API_BASE_URL = 'https://dogex-alith-ai-production.up.railway.app'
 
 export const hyperion = defineChain({
   id: 133717,
