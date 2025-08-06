@@ -10,6 +10,7 @@ import {
   useWaitForTransactionReceipt,
   useWriteContract,
 } from 'wagmi'
+import AddTokenButton from './add-token-button'
 
 const USDC_CONTRACT_ADDRESS = '0x7e8aD9892265a5A665062b5C3D387aF301A673b6'
 const MINT_AMOUNT = 1000
@@ -19,6 +20,17 @@ export default function MintComponent() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
+
+  // Handle success and error messages from AddTokenButton
+  const handleTokenSuccess = (message: string) => {
+    setSuccess(message)
+    setTimeout(() => setSuccess(null), 3000)
+  }
+
+  const handleTokenError = (message: string) => {
+    setError(message)
+    setTimeout(() => setError(null), 3000)
+  }
 
   const { data: balance, refetch: refetchBalance } = useReadContract({
     address: USDC_CONTRACT_ADDRESS,
@@ -110,14 +122,26 @@ export default function MintComponent() {
 
       <div className="mb-6 p-4 bg-gray-700 rounded-lg">
         <div className="text-sm text-gray-300 mb-1">Current USDC Balance</div>
-        <div className="text-xl font-semibold text-white">
-          {isConnected ? formatBalance(balance, decimals) : '0.00'} USDC
+        <div className="flex items-center justify-start gap-1">
+          <div className="text-xl font-semibold text-white">
+            {isConnected ? formatBalance(balance, decimals) : '0.00'} USDC
+          </div>
+          <AddTokenButton
+            onSuccess={handleTokenSuccess}
+            onError={handleTokenError}
+          />
         </div>
       </div>
 
       <div className="mb-6 p-4 bg-gray-700 rounded-lg">
         <div className="text-sm text-gray-300 mb-1">Mint Amount</div>
-        <div className="text-xl font-semibold text-green-400">1,000 USDC</div>
+        <div className="flex items-center justify-start gap-1">
+          <div className="text-xl font-semibold text-green-400">1,000 USDC</div>
+          <AddTokenButton
+            onSuccess={handleTokenSuccess}
+            onError={handleTokenError}
+          />
+        </div>
       </div>
 
       {error && (
