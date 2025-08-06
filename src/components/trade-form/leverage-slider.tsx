@@ -41,7 +41,7 @@ export const LeverageSlider = () => {
           value={[leverage]}
           onValueChange={(value) => setLeverage(value[0])}
           min={10}
-          max={200}
+          max={100}
           step={1}
           className="w-full
             [&_[data-slot=slider-track]]:bg-gray-700
@@ -56,7 +56,7 @@ export const LeverageSlider = () => {
 
       <div className="flex justify-between text-sm px-4">
         <span className="text-gray-400">10x</span>
-        <span className="text-gray-400">200x</span>
+        <span className="text-gray-400">100x</span>
       </div>
     </div>
   )
