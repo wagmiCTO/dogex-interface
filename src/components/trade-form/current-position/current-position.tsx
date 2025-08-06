@@ -4,7 +4,11 @@ import { getContract } from '@/lib/contracts'
 import type { ContractPosition } from '@/lib/types'
 import { calculateLiquidationPrice, formatAmount } from '@/lib/utils'
 import { useCallback, useState } from 'react'
-import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
+import {
+  useAccount,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from 'wagmi'
 
 interface CurrentPositionProps {
   position: ContractPosition
@@ -25,7 +29,7 @@ const CurrentPosition = ({ position }: CurrentPositionProps) => {
 
   const formattedPostition = {
     ...position,
-    entryPrice: formatAmount(position.entryPrice, 9, 6, false),
+    entryPrice: formatAmount(position.entryPrice, 8, 6, false),
     collateral: formatAmount(position.collateral, USDC.decimal, 2, false),
     size: formatAmount(position.size, USDC.decimal, 2, false),
     pnl: formatAmount(position.pnl, USDC.decimal, 2, false),
@@ -78,7 +82,7 @@ const CurrentPosition = ({ position }: CurrentPositionProps) => {
           <div>
             <div className="text-gray-400 mb-1">Entry Price</div>
             <div className="text-white font-medium">
-              ${formatAmount(position.entryPrice, 9, 5, true)}
+              ${formatAmount(position.entryPrice, 8, 5, true)}
             </div>
           </div>
 

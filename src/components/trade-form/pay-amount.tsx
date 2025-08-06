@@ -25,7 +25,7 @@ export const PayAmount = () => {
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value)
 
-    if (value >= 1 && value <= 1000) {
+    if (value >= 1 && value <= 10000) {
       setPayAmount(value)
     } else if (e.target.value === '' || e.target.value === '0') {
       setPayAmount(0)
