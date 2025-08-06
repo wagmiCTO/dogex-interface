@@ -18,7 +18,8 @@ export const LeverageSlider = () => {
     if (lev <= 10) return 'Low Risk'
     if (lev <= 30) return 'Medium Risk'
     if (lev <= 50) return 'High Risk'
-    return 'EXTREME RISK'
+    if (lev <= 100) return 'EXTREME RISK'
+    return 'MAXIMUM RISK'
   }
 
   return (

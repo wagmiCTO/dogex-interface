@@ -3,16 +3,23 @@ import { USDC } from '@/lib/constant'
 import { getContract } from '@/lib/contracts'
 import type { ContractPosition } from '@/lib/types'
 import { calculateLiquidationPrice, formatAmount } from '@/lib/utils'
-import { useCallback } from 'react'
-import { useAccount, useWriteContract } from 'wagmi'
+import { useCallback, useState } from 'react'
+import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
 
 interface CurrentPositionProps {
   position: ContractPosition
 }
 
 const CurrentPosition = ({ position }: CurrentPositionProps) => {
-  const { writeContractAsync } = useWriteContract()
+  const { writeContractAsync, isPending } = useWriteContract()
   const { chainId } = useAccount()
+  const [txHash, setTxHash] = useState<`0x${string}` | undefined>()
+
+  const { isLoading: isConfirming } = useWaitForTransactionReceipt({
+    hash: txHash,
+  })
+
+  const isLoading = !!txHash && isConfirming
 
   const hasProfit = position.pnl >= 0
 
@@ -27,13 +34,20 @@ const CurrentPosition = ({ position }: CurrentPositionProps) => {
   const dogexAddress = getContract(chainId, 'Dogex')
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   const onClosePosition = useCallback(async () => {
-    writeContractAsync({
-      abi: DOGEX_ABI,
-      address: dogexAddress,
-      functionName: 'closePosition',
-      args: [],
-    })
-  }, [dogexAddress])
+    try {
+      const hash = await writeContractAsync({
+        abi: DOGEX_ABI,
+        address: dogexAddress,
+        functionName: 'closePosition',
+        args: [],
+      })
+
+      setTxHash(hash)
+    } catch (error) {
+      console.error('Close position failed:', error)
+      setTxHash(undefined)
+    }
+  }, [dogexAddress, writeContractAsync])
 
   return (
     <div className="space-y-4">
@@ -116,11 +130,18 @@ const CurrentPosition = ({ position }: CurrentPositionProps) => {
         </div>
         <div className="flex justify-center pt-4">
           <button
-            className="cursor-pointer bg-sky-500 hover:bg-sky-700 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-150 disabled:opacity-50"
+            className="cursor-pointer bg-sky-500 hover:bg-sky-700 disabled:bg-sky-500/50 text-white font-bold py-2 px-6 rounded-lg transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={() => onClosePosition()}
-            disabled={!position.size}
+            disabled={!position.size || isLoading || isPending}
           >
-            Close Position
+            {isLoading || isPending ? (
+              <div className="flex items-center gap-2">
+                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                Closing...
+              </div>
+            ) : (
+              'Close Position'
+            )}
           </button>
         </div>
       </div>
