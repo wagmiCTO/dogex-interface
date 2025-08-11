@@ -284,25 +284,6 @@ We welcome contributions from the community! Please read our [Contributing Guide
 - **Performance Metrics**: Core Web Vitals tracking
 - **Custom Events**: Trading action analytics
 
-## 🔮 Roadmap
-
-### Phase 1: Core Features ✅
-- [x] Basic trading interface
-- [x] USDC integration
-- [x] Wallet connectivity
-- [x] Position management
-
-### Phase 2: Enhanced Trading 🚧
-- [ ] Advanced order types
-- [ ] Portfolio analytics
-- [ ] Trading history
-- [ ] Performance metrics
-
-### Phase 3: Advanced Features 🔮
-- [ ] Multiple asset support
-- [ ] Cross-chain trading
-- [ ] Social trading features
-- [ ] Mobile application
 
 ## 📄 License
 
