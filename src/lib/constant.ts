@@ -36,7 +36,7 @@ export const API_BASE_URL = 'https://dogex-alith-ai-production.up.railway.app'
 
 export const hyperion = defineChain({
   id: 133717,
-  name: 'Hyperion tetsnet',
+  name: 'Hyperion testnet',
   nativeCurrency: { name: 'tMETIS', symbol: 'tMETIS', decimals: 18 },
   rpcUrls: {
     default: {
