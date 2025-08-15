@@ -10,6 +10,8 @@ import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 import { formatUnits } from 'viem'
 
+const REFRESH_DELAY_MS = 10 * 1000 // 10 seconds
+
 type ActivePositionViewProps = {
   positionData: ContractPosition | undefined
 }
@@ -60,9 +62,8 @@ export const ActivePositionView = ({
   const refreshAdvice = useCallback(async () => {
     const now = Date.now()
     const timeSinceLastRefresh = now - lastRefreshTime
-    const RATE_LIMIT_MS = 10 * 1000 // 10 secs
 
-    if (timeSinceLastRefresh < RATE_LIMIT_MS) {
+    if (timeSinceLastRefresh < REFRESH_DELAY_MS) {
       return
     }
 
@@ -112,8 +113,7 @@ export const ActivePositionView = ({
       if (lastRefreshTime > 0) {
         const now = Date.now()
         const timeSinceLastRefresh = now - lastRefreshTime
-        const RATE_LIMIT_MS = 10 * 1000 // 2.5 minutes
-        const remaining = Math.max(0, RATE_LIMIT_MS - timeSinceLastRefresh)
+        const remaining = Math.max(0, REFRESH_DELAY_MS - timeSinceLastRefresh)
         setTimeRemaining(remaining)
       }
     }, 1000)

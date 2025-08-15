@@ -11,6 +11,8 @@ import { useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
 
+const REQUEST_DELAY_MS = 10 * 1000 // 10 seconds
+
 export const NonActivePositionView = () => {
   const { setPayAmount, setLeverage } = useOBStore()
   const [currentAdvice, setCurrentAdvice] = useState<string>('')
@@ -24,7 +26,7 @@ export const NonActivePositionView = () => {
     const interval = setInterval(() => {
       const now = Date.now()
       const timeSinceLastRequest = now - lastRequestTime
-      const remainingTime = Math.max(0, 10000 - timeSinceLastRequest) // 60 seconds = 60000ms
+      const remainingTime = Math.max(0, REQUEST_DELAY_MS - timeSinceLastRequest)
       setTimeUntilNextRequest(remainingTime)
     }, 1000)
 
@@ -43,11 +45,10 @@ export const NonActivePositionView = () => {
   const onRandomPosition = useCallback(async () => {
     const now = Date.now()
     const timeSinceLastRequest = now - lastRequestTime
-    const oneMinute = 10000 // 60 seconds in milliseconds
 
     // Check if enough time has passed since last request
-    if (timeSinceLastRequest < oneMinute) {
-      return // Don't make request if less than 1 minute has passed
+    if (timeSinceLastRequest < REQUEST_DELAY_MS) {
+      return // Don't make request if less than delay time has passed
     }
 
     setIsLoading(true)
