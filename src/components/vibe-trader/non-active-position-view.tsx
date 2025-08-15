@@ -43,7 +43,7 @@ export const NonActivePositionView = () => {
   const onRandomPosition = useCallback(async () => {
     const now = Date.now()
     const timeSinceLastRequest = now - lastRequestTime
-    const oneMinute = 60000 // 60 seconds in milliseconds
+    const oneMinute = 10000 // 60 seconds in milliseconds
 
     // Check if enough time has passed since last request
     if (timeSinceLastRequest < oneMinute) {
