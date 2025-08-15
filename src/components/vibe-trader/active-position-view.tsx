@@ -112,7 +112,7 @@ export const ActivePositionView = ({
       if (lastRefreshTime > 0) {
         const now = Date.now()
         const timeSinceLastRefresh = now - lastRefreshTime
-        const RATE_LIMIT_MS = 2.5 * 60 * 1000 // 2.5 minutes
+        const RATE_LIMIT_MS = 10 * 1000 // 2.5 minutes
         const remaining = Math.max(0, RATE_LIMIT_MS - timeSinceLastRefresh)
         setTimeRemaining(remaining)
       }
