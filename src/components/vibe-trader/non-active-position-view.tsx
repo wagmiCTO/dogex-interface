@@ -24,7 +24,7 @@ export const NonActivePositionView = () => {
     const interval = setInterval(() => {
       const now = Date.now()
       const timeSinceLastRequest = now - lastRequestTime
-      const remainingTime = Math.max(0, 60000 - timeSinceLastRequest) // 60 seconds = 60000ms
+      const remainingTime = Math.max(0, 10000 - timeSinceLastRequest) // 60 seconds = 60000ms
       setTimeUntilNextRequest(remainingTime)
     }, 1000)
 

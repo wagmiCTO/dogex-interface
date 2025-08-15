@@ -60,10 +60,10 @@ export const ActivePositionView = ({
   const refreshAdvice = useCallback(async () => {
     const now = Date.now()
     const timeSinceLastRefresh = now - lastRefreshTime
-    const RATE_LIMIT_MS = 2.5 * 60 * 1000 // 2.5 minutes
+    const RATE_LIMIT_MS = 10 * 1000 // 10 secs
 
     if (timeSinceLastRefresh < RATE_LIMIT_MS) {
-      return // Rate limit: don't allow refresh more than once every 2.5 minutes
+      return
     }
 
     setIsLoading(true)
