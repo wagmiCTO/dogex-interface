@@ -82,7 +82,19 @@ const Footer = () => {
           </a>
         </div>
 
-        <div className="flex justify-center" />
+        <div className="flex justify-center items-center">
+          <span className="text-gray-400 text-xs">
+            Charts by{' '}
+            <a
+              href="https://www.tradingview.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-400 hover:text-white transition-colors duration-200 underline"
+            >
+              TradingView
+            </a>
+          </span>
+        </div>
 
         <div className="flex flex-col items-center sm:items-end gap-2">
           <div className="hidden sm:flex flex-row gap-4 items-center">
